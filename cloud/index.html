@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>QiPulse Cloud Demo</title>
+    <style>
+      body { font-family: -apple-system, system-ui; padding: 20px; line-height: 1.6; }
+      input, button { font-size: 16px; padding: 8px; }
+      .card { max-width: 520px; margin: 0 auto; padding: 16px; border: 1px solid #eee; border-radius: 12px; }
+      .msg { color: #0a7f38; margin-top: 10px; word-break: break-word; }
+      .err { color: #b00020; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>QiPulse Cloud Demo</h2>
+      <p><button id="helloBtn">Call /api/hello</button></p>
+      <p>
+        <input id="name" placeholder="your name"/>
+        <button id="greetBtn">Call /api/greet</button>
+      </p>
+      <pre id="out" class="msg"></pre>
+      <p style="font-size:12px;color:#666">※ 上传功能暂未在 Vercel 开启（无磁盘）。需要我就给你接 Vercel Blob。</p>
+    </div>
+    <script>
+      const out = document.getElementById('out');
+      document.getElementById('helloBtn').onclick = async () => {
+        out.textContent = '…';
+        const r = await fetch('/api/hello'); out.textContent = await r.text();
+      };
+      document.getElementById('greetBtn').onclick = async () => {
+        out.textContent = '…';
+        const name = document.getElementById('name').value || 'friend';
+        const r = await fetch('/api/greet', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name}) });
+        out.textContent = await r.text();
+      };
+    </script>
+  </body>
+</html>
